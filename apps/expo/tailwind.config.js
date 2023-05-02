@@ -2,7 +2,7 @@
 
 // import { type Config } from "tailwindcss";
 
-// import baseConfig from "@acme/tailwind-config";
+// import baseConfig from "@jigsaw/tailwind-config";
 
 // export default {
 //   presets: [baseConfig],
