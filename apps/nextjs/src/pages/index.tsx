@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>PieceWise planner</title>
+        <title>PieceWise Planner</title>
         <meta name="description" content="Piecewise planner landing page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -75,17 +75,16 @@ const Home: NextPage = () => {
 
           <Box textAlign={{ base: "center", lg: "start" }}>
             <Heading
-              pt={{ base: 32, lg: "48" }}
-              fontSize={{ base: "5xl", lg: "6xl" }}
+              pt={{ base: "24", sm: "32", lg: "48" }}
+              fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
             >
               Don&apos;t Waste Time.
             </Heading>
-            <Heading fontSize={{ base: "5xl", lg: "6xl" }}>
+            <Heading fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}>
               Plan Your day{" "}
               <Box as="span" color="brandPrimary">
-                Effortlessly
+                Effortlessly.
               </Box>
-              .
             </Heading>
             <Text
               mt={"8"}
