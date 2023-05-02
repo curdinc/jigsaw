@@ -9,14 +9,14 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<PaymentIntentResponse>,
 ) {
   if (req.method === "POST") {
     try {
       // Create Checkout Sessions from body params.
       // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1,
+        amount: 10000, // price of item
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,
@@ -33,9 +33,9 @@ export default async function handler(
     } catch (err) {
       console.error("err", err);
       if (err instanceof Stripe.errors.StripeAPIError) {
-        res.status(err.statusCode || 500).json(err.message);
+        res.status(err.statusCode || 500);
       } else {
-        res.status(500).json({ error: "An unexpected error occurred" });
+        res.status(500);
       }
     }
   } else {
