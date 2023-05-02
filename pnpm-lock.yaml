@@ -164,6 +164,9 @@ importers:
       '@jigsaw/tailwind-config':
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
+      '@stripe/react-stripe-js':
+        specifier: ^2.1.0
+        version: 2.1.0(@stripe/stripe-js@1.52.1)(react-dom@18.2.0)(react@18.2.0)
       '@stripe/stripe-js':
         specifier: ^1.52.1
         version: 1.52.1
@@ -4057,6 +4060,19 @@ packages:
     resolution: {integrity: sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==}
     dependencies:
       '@sinonjs/commons': 2.0.0
+    dev: false
+
+  /@stripe/react-stripe-js@2.1.0(@stripe/stripe-js@1.52.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Zb6Ycrj5QuhYkvtlvvLzo+cysUyA6wkx3zWHQ7uVnHRYRM/n1jtQD6VGBrdmptC8e8PJN6L091gBCyB5P0FqmA==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@stripe/stripe-js': 1.52.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@stripe/stripe-js@1.52.1:

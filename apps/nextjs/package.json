@@ -21,6 +21,7 @@
     "@jigsaw/auth": "^0.1.0",
     "@jigsaw/db": "^0.1.0",
     "@jigsaw/tailwind-config": "^0.1.0",
+    "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.52.1",
     "@t3-oss/env-nextjs": "^0.2.2",
     "@tanstack/react-query": "^4.29.5",
