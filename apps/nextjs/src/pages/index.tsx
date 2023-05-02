@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -8,17 +9,62 @@ import {
   Grid,
   GridItem,
   Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { signIn, signOut } from "next-auth/react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { HiPuzzlePiece } from "react-icons/hi2";
 import { IoTimeOutline } from "react-icons/io5";
+import { z } from "zod";
 
-import { api } from "~/utils/api";
+import CheckoutForm from "~/components/stripe/CheckoutForm";
+import { env } from "~/env.mjs";
 import BottomLeftBlob from "../../public/homepage/blob-bottom-left.svg";
 import TopRightBlob from "../../public/homepage/blob-top-right.svg";
 
 const Home: NextPage = () => {
+  const [clientSecret, setClientSecret] = useState("");
+  const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
+  const {
+    isOpen: isOpenPaymentModal,
+    onOpen: onOpenPaymentModal,
+    onClose: onClosePaymentModal,
+  } = useDisclosure();
+
+  const createPaymentIntent = async () => {
+    const stripePromise = await loadStripe(
+      env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    );
+    if (stripePromise === null) {
+      throw new Error("Invalid stripe promise.");
+    }
+    setStripePromise(stripePromise);
+
+    const response = await fetch("/api/stripe/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = z
+      .object({ clientSecret: z.string() })
+      .parse(await response.json());
+
+    setClientSecret(data.clientSecret);
+  };
+
+  useEffect(() => {
+    if (clientSecret !== "") {
+      onOpenPaymentModal();
+    }
+  }, [clientSecret, onOpenPaymentModal]);
+
   return (
     <>
       <Head>
@@ -97,6 +143,7 @@ const Home: NextPage = () => {
               stressing out. Get 3 hours back every single week.
             </Text>
             <Button
+              onClick={void createPaymentIntent}
               mt={"8"}
               w="fit-content"
               rounded="full"
@@ -131,34 +178,29 @@ const Home: NextPage = () => {
           bg="brandPrimary"
         />
       </Grid>
+      <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Checkout</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Elements
+              options={{ clientSecret, appearance: { theme: "stripe" } }}
+              stripe={stripePromise}
+            >
+              <CheckoutForm />
+            </Elements>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClosePaymentModal}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: session } = api.auth.getSession.useQuery();
-
-  const { data: secretMessage } = api.auth.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: !!session?.user },
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      {session?.user && (
-        <p className="text-center text-2xl text-white">
-          {session && <span>Logged in as {session?.user?.name}</span>}
-          {secretMessage && <span> - {secretMessage}</span>}
-        </p>
-      )}
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={session ? () => void signOut() : () => void signIn()}
-      >
-        {session ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-};
