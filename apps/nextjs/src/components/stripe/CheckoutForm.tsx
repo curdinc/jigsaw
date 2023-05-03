@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, FormControl, FormLabel } from "@chakra-ui/react";
+import { Button, FormControl, useToast } from "@chakra-ui/react";
 import {
   LinkAuthenticationElement,
   PaymentElement,
@@ -8,11 +8,9 @@ import {
 } from "@stripe/react-stripe-js";
 
 export default function CheckoutForm() {
+  const toast = useToast();
   const stripe = useStripe();
   const elements = useElements();
-
-  const [email, setEmail] = React.useState("");
-  const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -25,26 +23,59 @@ export default function CheckoutForm() {
     );
 
     if (!clientSecret) {
+      console.error("clientSecret undefined in checkout form");
       return;
     }
 
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
-  }, [stripe]);
+    console.error("obtained clientSecret.");
+    stripe
+      .retrievePaymentIntent(clientSecret)
+      .then(({ paymentIntent }) => {
+        if (!paymentIntent) {
+          console.error("paymentIntent undefined in checkout form");
+          return;
+        }
+        switch (paymentIntent.status) {
+          case "succeeded":
+            toast({
+              title: "Payment succeeded!",
+              description: "Thanks for your support!",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            break;
+          case "processing":
+            toast({
+              title: "Loading",
+              description: "Your payment is processing.",
+              status: "info",
+              duration: 9000,
+              isClosable: true,
+            });
+            break;
+          case "requires_payment_method":
+            toast({
+              title: "Error",
+              description: "Your payment was not successful, please try again.",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            break;
+          default:
+            toast({
+              title: "Error",
+              description: "Something went wrong.",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            break;
+        }
+      })
+      .catch((error) => console.error(error));
+  }, [stripe, toast]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +92,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/paymentSuccess",
       },
     });
 
@@ -71,45 +102,85 @@ export default function CheckoutForm() {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
     if (error?.type === "card_error" || error?.type === "validation_error") {
-      setMessage(error.message);
+      if (error.message) {
+        toast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      }
     } else {
-      setMessage("An unexpected error occurred.");
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
 
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
-    layout: "tabs",
-  };
+  // const paymentElementOptions = {
+  //   layout: "tabs",
+  // };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <FormControl id="email">
-        <FormLabel>Email</FormLabel>
-        <LinkAuthenticationElement
-          id="link-authentication-element"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </FormControl>
-
-      <FormControl id="payment-element">
-        <FormLabel>Payment Element</FormLabel>
-        <PaymentElement options={paymentElementOptions} />
-      </FormControl>
-
-      <Button
-        type="submit"
-        disabled={isLoading || !stripe || !elements}
-        id="submit"
+    <form
+      id="payment-form"
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+        handleSubmit(e)
+          .then(() => {
+            // handle successful completion of asynchronous operation
+          })
+          .catch(() => {
+            // handle error from asynchronous operation
+          });
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
       >
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </Button>
+        <FormControl id="email">
+          <LinkAuthenticationElement id="link-authentication-element" />
+        </FormControl>
 
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+        <FormControl id="payment-element">
+          <PaymentElement />
+        </FormControl>
+
+        <Button
+          type="submit"
+          className="align-center mt-4"
+          disabled={isLoading || !stripe || !elements}
+          id="submit"
+          colorScheme={"brand"}
+        >
+          <span id="button-text">
+            {isLoading ? (
+              <div className="spinner" id="spinner"></div>
+            ) : (
+              "Pay now"
+            )}
+          </span>
+        </Button>
+      </div>
     </form>
   );
 }
