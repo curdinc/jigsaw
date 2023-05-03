@@ -13,7 +13,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -40,6 +39,7 @@ const Home: NextPage = () => {
   } = useDisclosure();
 
   const createPaymentIntent = async () => {
+    console.log("clicked");
     const stripePromise = await loadStripe(
       env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     );
@@ -143,7 +143,16 @@ const Home: NextPage = () => {
               stressing out. Get 3 hours back every single week.
             </Text>
             <Button
-              onClick={void createPaymentIntent}
+              disabled={true}
+              onClick={() => {
+                createPaymentIntent()
+                  .then(() => {
+                    // handle successful completion of asynchronous operation
+                  })
+                  .catch(() => {
+                    // handle error from asynchronous operation
+                  });
+              }}
               mt={"8"}
               w="fit-content"
               rounded="full"
@@ -178,27 +187,25 @@ const Home: NextPage = () => {
           bg="brandPrimary"
         />
       </Grid>
-      <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Checkout</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Elements
-              options={{ clientSecret, appearance: { theme: "stripe" } }}
-              stripe={stripePromise}
-            >
-              <CheckoutForm />
-            </Elements>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClosePaymentModal}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {clientSecret !== "" ? (
+        <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Checkout</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Elements
+                options={{ clientSecret, appearance: { theme: "stripe" } }}
+                stripe={stripePromise}
+              >
+                <CheckoutForm />
+              </Elements>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
