@@ -191,6 +191,7 @@ const Home: NextPage = () => {
                 colorScheme={"brand"}
                 size={{ base: "md", lg: "lg" }}
                 p={6}
+                mb={10}
               >
                 10x your productivity
               </Button>
