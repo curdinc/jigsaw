@@ -69,21 +69,25 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>PieceWise Planner</title>
-        <meta name="description" content="Piecewise planner landing page" />
+        <meta
+          name="description"
+          content="Piecewise Planner. Don't miss a task"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid
         as={"main"}
         templateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(10, 1fr)" }}
         templateRows={"1"}
-        minH="100vh"
+        h="100vh"
+        maxH="100vh"
       >
         <GridItem
           colSpan={{ base: "auto", lg: 6 }}
           h="full"
           position={"relative"}
-          py={5}
-          px={10}
+          py={8}
+          px={{ base: 8, lg: 14 }}
         >
           <Image
             priority
@@ -119,28 +123,46 @@ const Home: NextPage = () => {
             </Flex>
           </Flex>
 
-          <Box textAlign={{ base: "center", lg: "start" }}>
+          <Flex
+            direction={"column"}
+            alignItems={{ base: "center", lg: "flex-start" }}
+          >
             <Heading
-              pt={{ base: "24", sm: "32", lg: "48" }}
+              pt={{ base: "20", sm: "32", lg: "48" }}
               fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
             >
-              Don&apos;t Waste Time.
-            </Heading>
-            <Heading fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}>
-              Plan Your day{" "}
+              Schedule{" "}
               <Box as="span" color="brandPrimary">
-                Effortlessly.
+                everything.
               </Box>
             </Heading>
+            <Heading
+              fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
+              mt={{ base: 3, lg: 5 }}
+            >
+              <Box as="span" color="brandPrimary">
+                Never miss
+              </Box>{" "}
+              a task.
+            </Heading>
             <Text
-              mt={"8"}
+              mt={{ base: 12, lg: 14 }}
               maxW={{ base: "md", lg: "lg" }}
               mx={{ base: "auto", lg: "0" }}
               fontSize={{ base: "medium", lg: "xl" }}
             >
-              We provide you the assistant you need to plan your day. Stay on
-              track and be realistic with your time. No more going over time and
-              stressing out. Get 3 hours back every single week.
+              We developed Eva, your personal scheduling agent to handle the
+              logistics of your day-to-day tasks.
+            </Text>
+            <Text
+              mt={"5"}
+              maxW={{ base: "md", lg: "lg" }}
+              mx={{ base: "auto", lg: "0" }}
+              fontSize={{ base: "medium", lg: "xl" }}
+            >
+              Navigate your day stress-free while Eva helps you stay on track.
+              No more missed deadlines and no more running late. Eva adapts to
+              your schedule .
             </Text>
             <Button
               disabled={true}
@@ -153,7 +175,7 @@ const Home: NextPage = () => {
                     // handle error from asynchronous operation
                   });
               }}
-              mt={"8"}
+              mt={"12"}
               w="fit-content"
               rounded="full"
               leftIcon={<IoTimeOutline />}
@@ -179,13 +201,20 @@ const Home: NextPage = () => {
             >
               Pages 1/4
             </Heading>
-          </Box>
+          </Flex>
         </GridItem>
         <GridItem
           h="full"
           colSpan={{ base: "auto", lg: 4 }}
           bg="brandPrimary"
-        />
+          overflow={"auto"}
+        >
+          <Box h="100vh"></Box>
+          <Box h="100vh"></Box>
+          <Box h="100vh"></Box>
+          <Box h="100vh"></Box>
+          <Box h="100vh"></Box>
+        </GridItem>
       </Grid>
       {clientSecret !== "" ? (
         <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>
