@@ -12,18 +12,20 @@ export function HomePageTwo({ progress }: { progress: MotionValue<number> }) {
   return (
     <Grid
       h="full"
-      p={"16"}
+      p={{ base: 6, lg: "16" }}
       templateColumns={{ base: "1", xl: "repeat(5, 1fr)" }}
       templateRows={{ base: "auto", xl: "1fr" }}
     >
       <GridItem colSpan={{ base: 1, xl: 2 }} alignSelf={"center"}>
         <MotionHeading
+          textAlign={{ base: "center", xl: "left" }}
           lineHeight={{ base: "10", lg: "1.2em", xl: "1.5em" }}
           fontSize={{ base: "4xl", lg: "6xl", xl: "5xl" }}
           fontWeight={"bold"}
           style={{
             opacity,
           }}
+          mt={{ base: 2, lg: "unset" }}
         >
           Eliminate planning anxiety once and for all
         </MotionHeading>
@@ -35,7 +37,7 @@ export function HomePageTwo({ progress }: { progress: MotionValue<number> }) {
       >
         <MotionBox
           mt={{ base: 14, xl: 0 }}
-          w={{ base: "80", xl: "full" }}
+          w={{ base: "64", lg: 80, xl: "full" }}
           borderRadius={"xl"}
           overflow={"hidden"}
           style={{

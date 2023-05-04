@@ -10,7 +10,7 @@ export function HomePageThree({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, [0, 0.7, 1], [0, 1, 1]);
 
   return (
-    <Box p={16}>
+    <Box p={{ base: 8, lg: 16 }}>
       <MotionHeading
         lineHeight={{ base: "10", lg: "1.1em" }}
         fontSize={{ base: "4xl", lg: "6xl" }}

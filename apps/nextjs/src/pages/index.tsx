@@ -66,6 +66,8 @@ const Home: NextPage = () => {
     }
   }, [clientSecret, onOpenPaymentModal]);
 
+  const [pageNumber, setPageNumber] = useState(1);
+
   return (
     <>
       <Head>
@@ -206,13 +208,13 @@ const Home: NextPage = () => {
                 letterSpacing={"widest"}
                 textTransform={"uppercase"}
               >
-                Pages 1/4
+                Pages {pageNumber}/4
               </Heading>
             </Flex>
           </Box>
         </GridItem>
 
-        <HomePageViewer />
+        <HomePageViewer setPageNumber={setPageNumber} />
       </Grid>
       {clientSecret !== "" ? (
         <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>

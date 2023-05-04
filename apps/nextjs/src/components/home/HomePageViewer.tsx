@@ -1,19 +1,20 @@
-import { useRef } from "react";
-import { Box, GridItem, useBreakpoint } from "@chakra-ui/react";
-import { useScroll } from "framer-motion";
+import React, { useRef } from "react";
+import { Box, GridItem } from "@chakra-ui/react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
 
 import { HomePageOne } from "./HomePageOne";
 import { HomePageThree } from "./HomePageThree";
 import { HomePageTwo } from "./HomePageTwo";
 
-export const HomePageViewer = () => {
+export const HomePageViewer = ({
+  setPageNumber,
+}: {
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const homePageOneRef = useRef<HTMLDivElement>(null);
   const homePageTwoRef = useRef<HTMLDivElement>(null);
   const homePageThreeRef = useRef<HTMLDivElement>(null);
-
-  const bkPoint = useBreakpoint();
-  console.log("bkPoint", bkPoint);
 
   const { scrollYProgress: pageOneProgress } = useScroll({
     target: homePageOneRef,
@@ -26,6 +27,23 @@ export const HomePageViewer = () => {
   const { scrollYProgress: pageThreeProgress } = useScroll({
     target: homePageThreeRef,
     offset: ["start end", "start start"],
+  });
+
+  useMotionValueEvent(pageOneProgress, "change", (latest) => {
+    if (latest > 0.4 && latest < 0.5) {
+      setPageNumber(1);
+    }
+  });
+
+  useMotionValueEvent(pageTwoProgress, "change", (latest) => {
+    if (latest > 0.4 && latest < 0.5) {
+      setPageNumber(2);
+    }
+  });
+  useMotionValueEvent(pageThreeProgress, "change", (latest) => {
+    if (latest > 0.4 && latest < 0.5) {
+      setPageNumber(3);
+    }
   });
 
   return (
@@ -48,9 +66,7 @@ export const HomePageViewer = () => {
       <Box h="100vh" />
       <Box h="200vh" ref={homePageOneRef} />
       <Box h="200vh" ref={homePageTwoRef} />
-      <Box h="200vh" ref={homePageThreeRef} />
-      {/* <HomePageTwo parentRef={containerRef} />
-  <HomePageThree parentRef={containerRef} /> */}
+      <Box h="200vh" ref={homePageThreeRef} />]
     </GridItem>
   );
 };

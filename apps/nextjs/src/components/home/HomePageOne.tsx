@@ -10,10 +10,15 @@ export function HomePageOne({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, [0, 0.4, 0.7, 1], [0, 1, 1, 0]);
 
   return (
-    <Flex direction="column" alignItems="center" h="full">
+    <Flex
+      direction="column"
+      alignItems="center"
+      justifyContent={{ base: "flex-end", lg: "space-between" }}
+      h="full"
+    >
       <MotionHeading
-        pt={"36"}
-        px={16}
+        pt={{ base: 24, lg: "36" }}
+        px={{ base: 6, lg: 16 }}
         lineHeight={{ base: "10", lg: "1.3em" }}
         textAlign={"center"}
         fontSize={{ base: "4xl", lg: "6xl" }}
@@ -25,7 +30,7 @@ export function HomePageOne({ progress }: { progress: MotionValue<number> }) {
         Focus on the things you want to do most
       </MotionHeading>
       <MotionBox
-        mt={{ base: 14, lg: 24 }}
+        mt={{ base: 20, lg: 24 }}
         borderRadius={"xl"}
         overflow={"hidden"}
         style={{
