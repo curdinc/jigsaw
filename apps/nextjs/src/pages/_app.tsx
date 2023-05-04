@@ -1,4 +1,5 @@
 import type { AppType } from "next/app";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import {
   ChakraProvider,
   extendTheme,
@@ -62,11 +63,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </SessionProvider>
+    <UserProvider>
+      <SessionProvider session={session}>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </SessionProvider>
+    </UserProvider>
   );
 };
 
