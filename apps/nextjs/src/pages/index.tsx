@@ -24,6 +24,7 @@ import { HiPuzzlePiece } from "react-icons/hi2";
 import { IoTimeOutline } from "react-icons/io5";
 import { z } from "zod";
 
+import { HomePageViewer } from "~/components/home/HomePageViewer";
 import CheckoutForm from "~/components/stripe/CheckoutForm";
 import { env } from "~/env.mjs";
 import BottomLeftBlob from "../../public/homepage/blob-bottom-left.svg";
@@ -71,150 +72,147 @@ const Home: NextPage = () => {
         <title>PieceWise Planner</title>
         <meta
           name="description"
-          content="Piecewise Planner. Don't miss a task"
+          content="Piecewise Planner. Schedule everything. Don't miss a task"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid
         as={"main"}
-        templateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(10, 1fr)" }}
-        templateRows={"1"}
-        h="100vh"
-        maxH="100vh"
+        templateColumns={{ base: "repeat(1, 1fr)", lg: "repeat(12, 1fr)" }}
       >
+        {/* This is a filler for desktop view so that we can have fix sidebar */}
         <GridItem
-          colSpan={{ base: "auto", lg: 6 }}
-          h="full"
-          position={"relative"}
-          py={8}
-          px={{ base: 8, lg: 14 }}
+          colSpan={{ base: "auto", lg: 7 }}
+          h={{ base: "full", lg: "100vh" }}
+          maxH={{ base: "inherit", lg: "100vh" }}
         >
-          <Image
-            priority
-            src={TopRightBlob}
-            alt="decorative background blob top right"
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-            }}
-          />
-          <Image
-            priority
-            src={BottomLeftBlob}
-            alt="decorative background blob bottom left"
-            style={{
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-            }}
-          />
-          <Flex as="nav" justify={"space-between"} alignItems="center">
-            <Flex alignItems={"center"}>
-              <HiPuzzlePiece size={30} />
+          <Box
+            position={{ base: "inherit", lg: "fixed" }}
+            top={0}
+            left={0}
+            right={"42%"}
+            // position={{ base: "relative", lg: "fixed" }}
+            w="inherit"
+            py={8}
+            px={{ base: 8, lg: 14 }}
+            h="full"
+            maxH="100vh"
+          >
+            <Image
+              src={TopRightBlob}
+              alt="decorative background blob top right"
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+              }}
+            />
+            <Image
+              src={BottomLeftBlob}
+              alt="decorative background blob bottom left"
+              style={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+              }}
+            />
+            <Flex as="nav" justify={"space-between"} alignItems="center">
+              <Flex alignItems={"center"}>
+                <HiPuzzlePiece size={30} />
+                <Heading
+                  letterSpacing={"widest"}
+                  fontWeight={"normal"}
+                  fontSize={"xl"}
+                  ml={2}
+                >
+                  Piecewise Planner
+                </Heading>
+              </Flex>
+            </Flex>
+
+            <Flex
+              direction={"column"}
+              alignItems={{ base: "center", lg: "flex-start" }}
+            >
               <Heading
-                letterSpacing={"widest"}
-                fontWeight={"normal"}
-                fontSize={"xl"}
-                ml={2}
+                pt={{ base: "20", sm: "32", lg: "48" }}
+                fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
               >
-                Piecewise Planner
+                Schedule{" "}
+                <Box as="span" color="brandPrimary">
+                  everything.
+                </Box>
+              </Heading>
+              <Heading
+                fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
+                mt={{ base: 3, lg: 5 }}
+              >
+                <Box as="span" color="brandPrimary">
+                  Never miss
+                </Box>{" "}
+                a task.
+              </Heading>
+              <Text
+                mt={{ base: 12, lg: 14 }}
+                maxW={{ base: "md", lg: "lg" }}
+                mx={{ base: "auto", lg: "0" }}
+                fontSize={{ base: "medium", lg: "xl" }}
+              >
+                We developed Eva, your personal scheduling agent to handle the
+                logistics of your day-to-day tasks.
+              </Text>
+              <Text
+                mt={"5"}
+                maxW={{ base: "md", lg: "lg" }}
+                mx={{ base: "auto", lg: "0" }}
+                fontSize={{ base: "medium", lg: "xl" }}
+              >
+                Navigate your day stress-free while Eva helps you stay on track.
+                No more missed deadlines and no more running late. Eva adapts to
+                your schedule .
+              </Text>
+              <Button
+                disabled={true}
+                onClick={() => {
+                  createPaymentIntent()
+                    .then(() => {
+                      // handle successful completion of asynchronous operation
+                    })
+                    .catch(() => {
+                      // handle error from asynchronous operation
+                    });
+                }}
+                mt={"12"}
+                w="fit-content"
+                rounded="full"
+                leftIcon={<IoTimeOutline />}
+                colorScheme={"brand"}
+                size={{ base: "md", lg: "lg" }}
+                p={6}
+              >
+                10x your productivity
+              </Button>
+              <Heading
+                display={{ base: "none", lg: "block" }}
+                position={"absolute"}
+                color={"brandPrimary"}
+                opacity={0.1}
+                right={-210}
+                top={"calc(60%)"}
+                p={0}
+                m={0}
+                fontSize={"8xl"}
+                transform={"rotate(-90deg)"}
+                letterSpacing={"widest"}
+                textTransform={"uppercase"}
+              >
+                Pages 1/4
               </Heading>
             </Flex>
-          </Flex>
+          </Box>
+        </GridItem>
 
-          <Flex
-            direction={"column"}
-            alignItems={{ base: "center", lg: "flex-start" }}
-          >
-            <Heading
-              pt={{ base: "20", sm: "32", lg: "48" }}
-              fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
-            >
-              Schedule{" "}
-              <Box as="span" color="brandPrimary">
-                everything.
-              </Box>
-            </Heading>
-            <Heading
-              fontSize={{ base: "4xl", sm: "5xl", lg: "6xl" }}
-              mt={{ base: 3, lg: 5 }}
-            >
-              <Box as="span" color="brandPrimary">
-                Never miss
-              </Box>{" "}
-              a task.
-            </Heading>
-            <Text
-              mt={{ base: 12, lg: 14 }}
-              maxW={{ base: "md", lg: "lg" }}
-              mx={{ base: "auto", lg: "0" }}
-              fontSize={{ base: "medium", lg: "xl" }}
-            >
-              We developed Eva, your personal scheduling agent to handle the
-              logistics of your day-to-day tasks.
-            </Text>
-            <Text
-              mt={"5"}
-              maxW={{ base: "md", lg: "lg" }}
-              mx={{ base: "auto", lg: "0" }}
-              fontSize={{ base: "medium", lg: "xl" }}
-            >
-              Navigate your day stress-free while Eva helps you stay on track.
-              No more missed deadlines and no more running late. Eva adapts to
-              your schedule .
-            </Text>
-            <Button
-              disabled={true}
-              onClick={() => {
-                createPaymentIntent()
-                  .then(() => {
-                    // handle successful completion of asynchronous operation
-                  })
-                  .catch(() => {
-                    // handle error from asynchronous operation
-                  });
-              }}
-              mt={"12"}
-              w="fit-content"
-              rounded="full"
-              leftIcon={<IoTimeOutline />}
-              colorScheme={"brand"}
-              size={{ base: "md", lg: "lg" }}
-              p={6}
-            >
-              10x your productivity
-            </Button>
-            <Heading
-              display={{ base: "none", lg: "block" }}
-              position={"absolute"}
-              color={"brandPrimary"}
-              opacity={0.1}
-              right={-210}
-              top={"calc(60%)"}
-              p={0}
-              m={0}
-              fontSize={"8xl"}
-              transform={"rotate(-90deg)"}
-              letterSpacing={"widest"}
-              textTransform={"uppercase"}
-            >
-              Pages 1/4
-            </Heading>
-          </Flex>
-        </GridItem>
-        <GridItem
-          h="full"
-          colSpan={{ base: "auto", lg: 4 }}
-          bg="brandPrimary"
-          overflow={"auto"}
-        >
-          <Box h="100vh"></Box>
-          <Box h="100vh"></Box>
-          <Box h="100vh"></Box>
-          <Box h="100vh"></Box>
-          <Box h="100vh"></Box>
-        </GridItem>
+        <HomePageViewer />
       </Grid>
       {clientSecret !== "" ? (
         <Modal isOpen={isOpenPaymentModal} onClose={onClosePaymentModal}>
