@@ -18,15 +18,15 @@ export const HomePageViewer = ({
 
   const { scrollYProgress: pageOneProgress } = useScroll({
     target: homePageOneRef,
-    offset: ["start end", "start start"],
+    offset: ["start end", "center start"],
   });
   const { scrollYProgress: pageTwoProgress } = useScroll({
     target: homePageTwoRef,
-    offset: ["start end", "start start"],
+    offset: ["start end", "center start"],
   });
   const { scrollYProgress: pageThreeProgress } = useScroll({
     target: homePageThreeRef,
-    offset: ["start end", "start start"],
+    offset: ["start end", "center start"],
   });
 
   useMotionValueEvent(pageOneProgress, "change", (latest) => {

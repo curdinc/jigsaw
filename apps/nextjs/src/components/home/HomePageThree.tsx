@@ -7,7 +7,7 @@ import { MotionBox } from "../motion/MotionBox";
 import { MotionHeading } from "../motion/MotionHeading";
 
 export function HomePageThree({ progress }: { progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, [0, 0.7, 1], [0, 1, 1]);
+  const opacity = useTransform(progress, [0, 0.4, 0.7, 1], [0, 1, 1, 1]);
 
   return (
     <Box p={{ base: 8, lg: 16 }}>
