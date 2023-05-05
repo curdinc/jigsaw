@@ -7,8 +7,6 @@ import {
 } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 import { Montserrat, Poppins } from "@next/font/google";
-import type { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import "../styles/globals.css";
@@ -58,17 +56,15 @@ export const theme = extendTheme({
   },
 });
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp: AppType<{ session: null }> = ({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: pageProps,
 }) => {
   return (
     <UserProvider>
-      <SessionProvider session={session}>
-        <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </SessionProvider>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </UserProvider>
   );
 };
