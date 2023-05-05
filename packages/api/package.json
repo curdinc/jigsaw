@@ -11,7 +11,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@jigsaw/auth": "^0.1.0",
     "@jigsaw/db": "^0.1.0",
     "@trpc/client": "^10.23.0",
     "@trpc/server": "^10.23.0",

@@ -7,11 +7,9 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 import { TRPCError, initTRPC } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { getServerSession, type Session } from "@jigsaw/auth";
 import { prisma } from "@jigsaw/db";
 
 /**
@@ -23,9 +21,6 @@ import { prisma } from "@jigsaw/db";
  * processing a request
  *
  */
-type CreateContextOptions = {
-  session: Session | null;
-};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use
@@ -36,9 +31,9 @@ type CreateContextOptions = {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+const createInnerTRPCContext = () => {
   return {
-    session: opts.session,
+    session: null,
     prisma,
   };
 };
@@ -48,14 +43,9 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
-
-  // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerSession({ req, res });
-
+export const createTRPCContext = async () => {
   return createInnerTRPCContext({
-    session,
+    session: null;
   });
 };
 

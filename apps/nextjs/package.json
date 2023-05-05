@@ -21,7 +21,6 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@jigsaw/api": "^0.1.0",
-    "@jigsaw/auth": "^0.1.0",
     "@jigsaw/db": "^0.1.0",
     "@jigsaw/tailwind-config": "^0.1.0",
     "@next/font": "^13.3.4",
