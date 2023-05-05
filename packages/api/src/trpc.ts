@@ -6,8 +6,11 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import { TRPCError, initTRPC } from "@trpc/server";
+
+import { initTRPC } from "@trpc/server";
+import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
+import { type OpenApiMeta } from "trpc-openapi";
 import { ZodError } from "zod";
 
 import { prisma } from "@jigsaw/db";
@@ -21,6 +24,9 @@ import { prisma } from "@jigsaw/db";
  * processing a request
  *
  */
+type CreateContextOptions = {
+  session: null;
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use
@@ -31,9 +37,9 @@ import { prisma } from "@jigsaw/db";
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = () => {
+const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    session: null,
+    session: opts.session,
     prisma,
   };
 };
@@ -43,9 +49,12 @@ const createInnerTRPCContext = () => {
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async () => {
+export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
+  // Get the session from the server using the unstable_getServerSession wrapper function
+  const session = null;
+
   return createInnerTRPCContext({
-    session: null;
+    session,
   });
 };
 
@@ -55,19 +64,22 @@ export const createTRPCContext = async () => {
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
-});
+const t = initTRPC
+  .meta<OpenApiMeta>()
+  .context<typeof createTRPCContext>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape, error }) {
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError:
+            error.cause instanceof ZodError ? error.cause.flatten() : null,
+        },
+      };
+    },
+  });
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
@@ -96,15 +108,16 @@ export const publicProcedure = t.procedure;
  * procedure
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session?.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+  // if (!ctx.session?.user) {
+  //   throw new TRPCError({ code: "UNAUTHORIZED" });
+  // }
+  // return next({
+  //   ctx: {
+  //     // infers the `session` as non-nullable
+  //     session: { ...ctx.session, user: ctx.session.user },
+  //   },
+  // });
+  return next();
 });
 
 /**
