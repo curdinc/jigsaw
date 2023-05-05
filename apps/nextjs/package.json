@@ -13,6 +13,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.5.0",
     "@chakra-ui/next-js": "^2.1.3",
     "@chakra-ui/react": "^2.6.0",
     "@chakra-ui/styled-system": "^2.9.0",
@@ -23,9 +24,9 @@
     "@jigsaw/auth": "^0.1.0",
     "@jigsaw/db": "^0.1.0",
     "@jigsaw/tailwind-config": "^0.1.0",
+    "@next/font": "^13.3.4",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.52.1",
-    "@next/font": "^13.3.4",
     "@t3-oss/env-nextjs": "^0.2.2",
     "@tanstack/react-query": "^4.29.5",
     "@trpc/client": "^10.23.0",
@@ -37,8 +38,8 @@
     "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "stripe": "^12.3.0",
     "react-icons": "^4.8.0",
+    "stripe": "^12.3.0",
     "superjson": "1.9.1",
     "zod": "^3.21.4"
   },
