@@ -1,16 +1,12 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Box, GridItem } from "@chakra-ui/react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
+import { useScroll } from "framer-motion";
 
-import { HomePageOne } from "./HomePageOne";
-import { HomePageThree } from "./HomePageThree";
-import { HomePageTwo } from "./HomePageTwo";
+import { FeaturePageOne } from "./FeaturePageOne";
+import { FeaturePageThree } from "./FeaturePageThree";
+import { FeaturePageTwo } from "./FeaturePageTwo";
 
-export const HomePageViewer = ({
-  setPageNumber,
-}: {
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+export const FeaturePageViewer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const homePageOneRef = useRef<HTMLDivElement>(null);
   const homePageTwoRef = useRef<HTMLDivElement>(null);
@@ -29,23 +25,6 @@ export const HomePageViewer = ({
     offset: ["start end", "center start"],
   });
 
-  useMotionValueEvent(pageOneProgress, "change", (latest) => {
-    if (latest > 0.4 && latest < 0.5) {
-      setPageNumber(1);
-    }
-  });
-
-  useMotionValueEvent(pageTwoProgress, "change", (latest) => {
-    if (latest > 0.4 && latest < 0.5) {
-      setPageNumber(2);
-    }
-  });
-  useMotionValueEvent(pageThreeProgress, "change", (latest) => {
-    if (latest > 0.4 && latest < 0.5) {
-      setPageNumber(3);
-    }
-  });
-
   return (
     <GridItem
       h="full"
@@ -55,13 +34,18 @@ export const HomePageViewer = ({
     >
       {/* Filler offset  */}
       <Box h="100vh" position={"fixed"} top={"0"}>
-        <HomePageOne progress={pageOneProgress} />
+        <FeaturePageOne progress={pageOneProgress} />
+      </Box>
+      <Box
+        h="100vh"
+        position={"fixed"}
+        top={"0"}
+        w={{ base: "full", lg: "unset" }}
+      >
+        <FeaturePageTwo progress={pageTwoProgress} />
       </Box>
       <Box h="100vh" position={"fixed"} top={"0"}>
-        <HomePageTwo progress={pageTwoProgress} />
-      </Box>
-      <Box h="100vh" position={"fixed"} top={"0"}>
-        <HomePageThree progress={pageThreeProgress} />
+        <FeaturePageThree progress={pageThreeProgress} />
       </Box>
       <Box h="100vh" />
       <Box h="200vh" ref={homePageOneRef} />

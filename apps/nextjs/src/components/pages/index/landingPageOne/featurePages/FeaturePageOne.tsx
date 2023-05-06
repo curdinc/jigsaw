@@ -1,12 +1,16 @@
-import Image from "next/image";
 import { Flex } from "@chakra-ui/react";
 import { useTransform, type MotionValue } from "framer-motion";
+import Image from "next/image";
 
-import SpeakerImage from "../../../public/homepage/speaker.webp";
-import { MotionBox } from "../motion/MotionBox";
-import { MotionHeading } from "../motion/MotionHeading";
+import SpeakerImage from "~/../public/homepage/speaker.webp";
+import { MotionBox } from "~/components/motion/MotionBox";
+import { MotionHeading } from "~/components/motion/MotionHeading";
 
-export function HomePageOne({ progress }: { progress: MotionValue<number> }) {
+export function FeaturePageOne({
+  progress,
+}: {
+  progress: MotionValue<number>;
+}) {
   const opacity = useTransform(progress, [0, 0.4, 0.7, 1], [0, 1, 1, 0]);
 
   return (
