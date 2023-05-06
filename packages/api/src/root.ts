@@ -11,3 +11,9 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+export const openApiRouter = createTRPCRouter({
+  twilio: twilioRouter,
+});
+// export type definition of Open API
+export type OpenApiRouter = typeof openApiRouter;

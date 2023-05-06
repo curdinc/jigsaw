@@ -6,7 +6,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const twilioRouter = createTRPCRouter({
   createCallTwilio: publicProcedure
-    .meta({ /* 👉 */ openapi: { method: "POST", path: "/create-call-twilio" } })
+    .meta({ openapi: { method: "POST", path: "/create-call-twilio" } })
     .input(
       z.object({ twilioTTS: z.string(), audioURL: z.string(), to: z.string() }),
     ) //TODO: parse to as a phone number type
