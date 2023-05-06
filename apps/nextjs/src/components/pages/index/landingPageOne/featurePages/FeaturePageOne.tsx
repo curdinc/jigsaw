@@ -1,10 +1,10 @@
+import Image from "next/image";
 import { Flex } from "@chakra-ui/react";
 import { useTransform, type MotionValue } from "framer-motion";
-import Image from "next/image";
 
-import SpeakerImage from "~/../public/homepage/speaker.webp";
 import { MotionBox } from "~/components/motion/MotionBox";
 import { MotionHeading } from "~/components/motion/MotionHeading";
+import SpeakerImage from "~/../public/homepage/speaker.webp";
 
 export function FeaturePageOne({
   progress,

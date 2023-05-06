@@ -5,23 +5,29 @@ import { useScroll } from "framer-motion";
 import { FeaturePageOne } from "./FeaturePageOne";
 import { FeaturePageThree } from "./FeaturePageThree";
 import { FeaturePageTwo } from "./FeaturePageTwo";
+import { ScrollMore } from "./ScrollMore";
 
 export const FeaturePageViewer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const homePageOneRef = useRef<HTMLDivElement>(null);
-  const homePageTwoRef = useRef<HTMLDivElement>(null);
-  const homePageThreeRef = useRef<HTMLDivElement>(null);
+  const scrollMoreRef = useRef<HTMLDivElement>(null);
+  const featurePageOneRef = useRef<HTMLDivElement>(null);
+  const featurePageTwoRef = useRef<HTMLDivElement>(null);
+  const featurePageThreeRef = useRef<HTMLDivElement>(null);
 
+  const { scrollYProgress: scrollMoreProgress } = useScroll({
+    target: scrollMoreRef,
+    offset: ["start end", "center start"],
+  });
   const { scrollYProgress: pageOneProgress } = useScroll({
-    target: homePageOneRef,
+    target: featurePageOneRef,
     offset: ["start end", "center start"],
   });
   const { scrollYProgress: pageTwoProgress } = useScroll({
-    target: homePageTwoRef,
+    target: featurePageTwoRef,
     offset: ["start end", "center start"],
   });
   const { scrollYProgress: pageThreeProgress } = useScroll({
-    target: homePageThreeRef,
+    target: featurePageThreeRef,
     offset: ["start end", "center start"],
   });
 
@@ -32,7 +38,18 @@ export const FeaturePageViewer = () => {
       bg="brandPrimary"
       ref={containerRef}
     >
-      {/* Filler offset  */}
+      <Box
+        h="100vh"
+        position={"fixed"}
+        top={"0"}
+        w="42%"
+        display={{
+          base: "none",
+          lg: "block",
+        }}
+      >
+        <ScrollMore progress={scrollMoreProgress} />
+      </Box>
       <Box h="100vh" position={"fixed"} top={"0"}>
         <FeaturePageOne progress={pageOneProgress} />
       </Box>
@@ -47,10 +64,10 @@ export const FeaturePageViewer = () => {
       <Box h="100vh" position={"fixed"} top={"0"}>
         <FeaturePageThree progress={pageThreeProgress} />
       </Box>
-      <Box h="100vh" />
-      <Box h="200vh" ref={homePageOneRef} />
-      <Box h="200vh" ref={homePageTwoRef} />
-      <Box h="200vh" ref={homePageThreeRef} />]
+      <Box h={{ base: "100vh", lg: "150vh" }} ref={scrollMoreRef} />
+      <Box h="200vh" ref={featurePageOneRef} />
+      <Box h="200vh" ref={featurePageTwoRef} />
+      <Box h="200vh" ref={featurePageThreeRef} />
     </GridItem>
   );
 };
