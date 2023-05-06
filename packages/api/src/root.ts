@@ -1,4 +1,5 @@
 import { authRouter } from "./router/auth";
+import { discordRouter } from "./router/discord";
 import { postRouter } from "./router/post";
 import { twilioRouter } from "./router/twilio";
 import { createTRPCRouter } from "./trpc";
@@ -6,7 +7,7 @@ import { createTRPCRouter } from "./trpc";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   auth: authRouter,
-  twilio: twilioRouter,
+  discord: discordRouter,
 });
 
 // export type definition of API
