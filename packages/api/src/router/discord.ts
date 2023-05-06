@@ -25,15 +25,15 @@ export const discordRouter = createTRPCRouter({
             content: `Email: ${parsedEmail}`,
           }),
         });
-        if (resp.status !== 204) {
+        if (resp.ok) {
           const errorText = await resp.text();
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: "Error processing webhook!",
+            message: "Error posting to discord!",
             cause: errorText,
           });
         }
-        return JSON.stringify({ success: "OK" });
+        return JSON.stringify({ success: true });
       } catch (error) {
         if (error instanceof ZodError) {
           throw new TRPCError({
