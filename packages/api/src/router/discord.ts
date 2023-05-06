@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { ZodError, z } from "zod";
 
+import { env } from "../../env.mjs";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const emailSchema = z.string().email("Invalid email address");
@@ -15,18 +16,15 @@ export const discordRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       try {
         const parsedEmail = emailSchema.parse(input.email);
-        const resp = await fetch(
-          "https://discord.com/api/webhooks/995630616873816094/AbmxDVB6Ohl6j3xOoDCB727THgyZot3hH7L9YrFzM6Mpda19mKu3qj3ndt9tIiC9fYm4",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              content: `Email: ${parsedEmail}`,
-            }),
+        const resp = await fetch(env.DISCORD_MAILING_LIST_WH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            content: `Email: ${parsedEmail}`,
+          }),
+        });
         if (resp.status !== 204) {
           const errorText = await resp.text();
           throw new TRPCError({
