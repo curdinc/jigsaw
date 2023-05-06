@@ -1,13 +1,19 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": ["**/.env"],
+  "globalDependencies": [
+    "**/.env"
+  ],
   "pipeline": {
     "db:generate": {
-      "inputs": ["prisma/schema.prisma"],
+      "inputs": [
+        "prisma/schema.prisma"
+      ],
       "cache": false
     },
     "db:push": {
-      "inputs": ["prisma/schema.prisma"],
+      "inputs": [
+        "prisma/schema.prisma"
+      ],
       "cache": false
     },
     "dev": {
@@ -15,8 +21,14 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "outputs": [".next/**", ".expo/**"]
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "outputs": [
+        ".next/**",
+        ".expo/**"
+      ]
     },
     "lint": {},
     "lint:fix": {},
@@ -27,7 +39,9 @@
       "cache": false
     },
     "type-check": {
-      "dependsOn": ["^db:generate"],
+      "dependsOn": [
+        "^db:generate"
+      ],
       "cache": false
     }
   },
@@ -47,6 +61,7 @@
     "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
     "TWILIO_ACCOUNT_SID",
     "TWILIO_AUTH_TOKEN",
-    "BASE_OPENAPI_URL"
+    "BASE_OPENAPI_URL",
+    "DISCORD_MAILING_LIST_WH"
   ]
 }

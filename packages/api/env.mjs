@@ -10,6 +10,7 @@ export const env = createEnv({
     TWILIO_ACCOUNT_SID: z.string(),
     TWILIO_AUTH_TOKEN: z.string(),
     BASE_OPENAPI_URL: z.string().url(),
+    DISCORD_MAILING_LIST_WH: z.string().url(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -25,5 +26,6 @@ export const env = createEnv({
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
     BASE_OPENAPI_URL: process.env.BASE_OPENAPI_URL,
+    DISCORD_MAILING_LIST_WH: process.env.DISCORD_MAILING_LIST_WH,
   },
 });
