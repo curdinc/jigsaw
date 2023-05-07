@@ -13,7 +13,7 @@ export const discordRouter = createTRPCRouter({
         email: z.string(),
       }),
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
         const parsedEmail = emailSchema.parse(input.email);
         const resp = await fetch(env.DISCORD_MAILING_LIST_WH, {
@@ -22,7 +22,7 @@ export const discordRouter = createTRPCRouter({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            content: `Email: ${parsedEmail}`,
+            content: `${ctx.abTest.landingPage} landing page, Email: ${parsedEmail}`,
           }),
         });
         if (!resp.ok) {

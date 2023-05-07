@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<{
   // Create a cookies instance
   const cookies = new Cookies(req, res);
 
-  const pageToDisplayCookieName = "pageToDisplay";
+  const pageToDisplayCookieName = "landingPageDisplay";
   let pageToDisplay = cookies.get(pageToDisplayCookieName);
 
   if (!pageToDisplay) {
