@@ -24,7 +24,7 @@ function MailingList() {
       console.log(data, variables, context);
       toast({
         title: "Success",
-        description: "You have been added to the mailing list.",
+        description: "You have been added to the waitlist.",
         status: "success",
         duration: 9000,
         isClosable: true,
