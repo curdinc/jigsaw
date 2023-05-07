@@ -1,18 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { HiPuzzlePiece } from "react-icons/hi2";
-import { IoTimeOutline } from "react-icons/io5";
 
+import MailingList from "~/components/MailingList";
 import BottomLeftBlob from "~/../public/homepage/blob-bottom-left.svg";
 import TopRightBlob from "~/../public/homepage/blob-top-right.svg";
 import { FeaturePageViewer } from "./featurePages/FeaturePageViewer";
@@ -107,7 +99,6 @@ const LandingPageOne: NextPage = () => {
               <Text
                 mt={{ base: 12, lg: 14 }}
                 maxW={{ base: "md", lg: "lg" }}
-                mx={{ base: "auto", lg: "0" }}
                 fontSize={{ base: "medium", lg: "xl" }}
               >
                 We developed Eva, your personal scheduling agent to handle the
@@ -123,22 +114,9 @@ const LandingPageOne: NextPage = () => {
                 No more missed deadlines and no more running late. Eva adapts to
                 your schedule .
               </Text>
-              <Button
-                disabled={true}
-                onClick={() => {
-                  console.log("email list");
-                }}
-                mt={"12"}
-                w="fit-content"
-                rounded="full"
-                leftIcon={<IoTimeOutline />}
-                colorScheme={"brand"}
-                size={{ base: "md", lg: "lg" }}
-                p={6}
-                mb={10}
-              >
-                10x your productivity
-              </Button>
+              <Box mt={20} w="full" maxW="lg">
+                <MailingList />
+              </Box>
             </Flex>
           </Box>
         </GridItem>

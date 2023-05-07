@@ -58,6 +58,7 @@ export const LandingPageTwo = () => {
         </Box>
         <Box>
           <Image
+            priority
             src={IphoneImage}
             alt="jigsaw phone"
             style={{ maxHeight: "100%", maxWidth: "100%" }}

@@ -20,9 +20,11 @@ export const getServerSideProps: GetServerSideProps<{
   // eslint-disable-next-line @typescript-eslint/require-await
 }> = async ({ req, res }) => {
   // Create a cookies instance
-  const cookies = new Cookies(req, res);
+  const cookies = new Cookies(req, res, {
+    secure: env.NODE_ENV === "production",
+  });
 
-  const pageToDisplayCookieName = "pageToDisplay";
+  const pageToDisplayCookieName = "landingPageDisplay";
   let pageToDisplay = cookies.get(pageToDisplayCookieName);
 
   if (!pageToDisplay) {
