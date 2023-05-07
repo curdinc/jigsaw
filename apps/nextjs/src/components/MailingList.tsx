@@ -3,9 +3,8 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
-  FormLabel,
   Input,
+  Stack,
 } from "@chakra-ui/react";
 
 import { api } from "~/utils/api";
@@ -31,31 +30,22 @@ function MailingList() {
   };
 
   return (
-    <>
-      <h2
-        id={"waitlist"}
-        className="my-3 text-2xl font-bold text-gray-100 md:text-3xl"
-      >
-        Join The Wait List Now
-      </h2>
+    <Stack direction={{ base: "column", md: "row" }} spacing={5}>
       <FormControl isInvalid={isError}>
-        <FormLabel>Email</FormLabel>
         <Input
           type="email"
           placeholder="satoshinakamoto@gmail.com"
           value={email}
           onChange={(email) => setEmail(email.target.value)}
+          size={"lg"}
         />
-        {!isError ? (
-          <FormHelperText>
-            Enter the email you&apos;d like to receive the newsletter on.
-          </FormHelperText>
-        ) : (
-          <FormErrorMessage>{error}</FormErrorMessage>
-        )}
+
+        {isError && <FormErrorMessage>{error}</FormErrorMessage>}
       </FormControl>
-      <Button onClick={onSubmit}>Submit</Button>
-    </>
+      <Button size={"lg"} px={10} onClick={onSubmit}>
+        Join Waitlist
+      </Button>
+    </Stack>
   );
 }
 

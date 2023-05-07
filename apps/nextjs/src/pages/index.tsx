@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 
-import LandingPageOne from "~/components/pages/index/landingPageOne/landingPageOne";
+import { LandingPageTwo } from "~/components/pages/index/landingPageTwo";
 
 const Home: NextPage = () => {
-  return <LandingPageOne />;
+  return <LandingPageTwo />;
 };
 
 export default Home;
