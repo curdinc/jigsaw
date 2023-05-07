@@ -25,7 +25,7 @@ export const discordRouter = createTRPCRouter({
             content: `Email: ${parsedEmail}`,
           }),
         });
-        if (resp.ok) {
+        if (!resp.ok) {
           const errorText = await resp.text();
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
