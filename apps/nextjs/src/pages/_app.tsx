@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 import { Montserrat, Poppins } from "@next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -182,6 +183,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />
+        <Analytics />
       </ChakraProvider>
     </SessionProvider>
   );

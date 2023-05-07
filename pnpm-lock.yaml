@@ -197,6 +197,9 @@ importers:
       '@trpc/server':
         specifier: ^10.23.0
         version: 10.23.0
+      '@vercel/analytics':
+        specifier: ^1.0.1
+        version: 1.0.1
       cookies:
         specifier: ^0.8.0
         version: 0.8.0
@@ -4617,6 +4620,10 @@ packages:
       '@urql/core': 2.3.6(graphql@15.8.0)
       graphql: 15.8.0
       wonka: 4.0.15
+    dev: false
+
+  /@vercel/analytics@1.0.1:
+    resolution: {integrity: sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==}
     dev: false
 
   /@xmldom/xmldom@0.7.9:
