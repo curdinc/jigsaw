@@ -5,11 +5,13 @@ import {
   FormErrorMessage,
   Input,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 
 import { api } from "~/utils/api";
 
 function MailingList() {
+  const toast = useToast();
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
   const { mutate: addToWaitlist } = api.discord.addToWaitlist.useMutation({
@@ -20,6 +22,13 @@ function MailingList() {
     },
     onSuccess(data, variables, context) {
       console.log(data, variables, context);
+      toast({
+        title: "Success",
+        description: "You have been added to the mailing list.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     },
   });
   const [email, setEmail] = useState("");
